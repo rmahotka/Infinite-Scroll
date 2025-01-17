@@ -1,20 +1,24 @@
-import type {IUserCompact} from '@/type/User'
+import type { IUserCompact } from '@/type/User';
 
+/**
+ * @typedef {Record<number, IUserCompact[]>} UserCache
+ */
 type UserCache = Record<number, IUserCompact[]>;
 
 /**
  * Loads the user cache from `sessionStorage`.
  * @returns A record of cached users, indexed by page number.
  */
-const loadCache = ():UserCache =>{
-    const cache = sessionStorage.getItem('cacheUser')
-    return cache ?  JSON.parse(cache) : {}
-}
+const loadCache = (): UserCache => {
+    const cache = sessionStorage.getItem('cacheUser');
+    return cache ? JSON.parse(cache) : {};
+};
+
 /**
  * Saves the user cache to `sessionStorage`.
  * @param cache - The cache object containing user data indexed by page number.
  */
-const saveCache = (cache:Record<number, IUserCompact[]>) => sessionStorage.setItem('cacheUser', JSON.stringify(cache));
+const saveCache = (cache: Record<number, IUserCompact[]>) => sessionStorage.setItem('cacheUser', JSON.stringify(cache));
 
 /**
  * Fetches user data from the external API for a given page.
@@ -24,11 +28,11 @@ const saveCache = (cache:Record<number, IUserCompact[]>) => sessionStorage.setIt
  */
 const fetchUserFromApi = async (page: number) => {
     const response = await fetch(`https://randomuser.me/api/?results=26&page=${page}`);
-    if(!response.ok){
-        throw new Error(`Failed to fetch users for page ${page}`)
+    if (!response.ok) {
+        throw new Error(`Failed to fetch users for page ${page}`);
     }
-    return response.json()
-}
+    return response.json();
+};
 
 /**
  * Fetches and returns a list of users for the specified page.
@@ -37,12 +41,12 @@ const fetchUserFromApi = async (page: number) => {
  * @returns A promise that resolves with a list of `IUserCompact` objects.
  */
 export const fetchUsers = async (page: number) => {
-    const cache = loadCache()
-    if(cache[page]){
+    const cache = loadCache();
+    if (cache[page]) {
         return cache[page];
     }
 
-    const data = await fetchUserFromApi(page)
+    const data = await fetchUserFromApi(page);
 
     const compactData: IUserCompact[] = data.results.map((user: any) => ({
         id: user?.login?.uuid,
@@ -52,7 +56,7 @@ export const fetchUsers = async (page: number) => {
     }));
 
     cache[page] = compactData;
-    saveCache(cache)
+    saveCache(cache);
 
-    return compactData
-}
+    return compactData;
+};

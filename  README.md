@@ -8,3 +8,6 @@ npm run dev
 
 ### Compile for production
 npm run build
+
+### Generate docs TypeDoc
+generate-docs

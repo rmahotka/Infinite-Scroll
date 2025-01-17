@@ -1,20 +1,21 @@
-import {onMounted, onUnmounted} from "vue";
+import { onMounted, onUnmounted } from "vue";
 
 /**
  * Custom hook for implementing infinite scroll functionality.
- * @param callback - A function to be called when the scroll reaches the bottom of the page.
- * @param offset - The offset from the bottom of the page to trigger the callback (default is 50).
- * @param delay - The debounce delay in milliseconds (default is 200).
+ *
+ * @param {Function} callback - A function to be called when the scroll reaches the bottom of the page.
+ * @param {number} [offset=50] - The offset from the bottom of the page to trigger the callback.
+ * @param {number} [delay=200] - The debounce delay in milliseconds.
+ * @returns {void}
  */
-export function useInfiniteScroll (callback: ()=>void, offset:number = 50, delay:number = 200)  {
-
+export function useInfiniteScroll(callback: () => void, offset: number = 50, delay: number = 200): void {
     /**
      * Creates a debounced version of the provided function.
-     * @param func - The function to debounce.
-     * @param wait - The delay in milliseconds before invoking the function.
-     * @returns A debounced function.
+     * @param {Function} func - The function to debounce.
+     * @param {number} wait - The delay in milliseconds before invoking the function.
+     * @returns {Function} A debounced function that delays the execution of the passed function.
      */
-    const debounce = (func: ()=> void, wait: number):()=>void => {
+    const debounce = (func: () => void, wait: number): () => void => {
         let timer: number | undefined;
         return () => {
             clearTimeout(timer);
@@ -25,13 +26,13 @@ export function useInfiniteScroll (callback: ()=>void, offset:number = 50, delay
     /**
      * Handles the scroll event and triggers the callback if the scroll reaches the specified offset from the bottom.
      */
-    const handleScroll = ():void => {
-        const scrollTop:number = document.documentElement.scrollTop;
-        const scrollHeight:number = document.documentElement.scrollHeight;
-        const clientHeight:number = document.documentElement.clientHeight;
+    const handleScroll = (): void => {
+        const scrollTop: number = document.documentElement.scrollTop;
+        const scrollHeight: number = document.documentElement.scrollHeight;
+        const clientHeight: number = document.documentElement.clientHeight;
 
         if (scrollTop + clientHeight >= scrollHeight - offset) {
-            callback()
+            callback();
         }
     };
 
@@ -39,7 +40,7 @@ export function useInfiniteScroll (callback: ()=>void, offset:number = 50, delay
     const debouncedHandleScroll = debounce(handleScroll, delay);
 
     /** Adds the debounced scroll event listener when the component is mounted. */
-    onMounted( () => {
+    onMounted(() => {
         window.addEventListener("scroll", debouncedHandleScroll);
     });
 

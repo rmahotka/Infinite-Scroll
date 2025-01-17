@@ -40,7 +40,8 @@ export function useUserPagination (initPage:number = 1):{
         }
     }
 
-    /** watch method that watches for page number changes, and in case of change executes the `loadPageUsers` request
+    /**
+     * watch method that watches for page number changes, and in case of change executes the `loadPageUsers` request
      * and changes the page number in the url
      */
     watch(page, async (newPage: number) => {
