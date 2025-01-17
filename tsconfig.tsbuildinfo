@@ -1,0 +1,1 @@
+{"root":["./src/main.ts","./src/shims-vue.d.ts","./src/composables/useinfinitescroll.ts","./src/composables/useuserpagination.ts","./src/services/userservice.ts","./src/type/user.ts","./src/app.vue","./src/components/appsectionsscroll.vue","./src/components/usercard.vue"],"version":"5.7.3"}

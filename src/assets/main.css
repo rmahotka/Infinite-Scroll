@@ -1,0 +1,15 @@
+:root{
+    --color-card-border: #D0D5DD;
+    --color-card-border-dark: #98A2B3;
+    --color-main-text: #344054;
+    --color-linke-hover:#3538CD;
+    --color-black: #000000;
+}
+
+body{
+    font-family: "Roboto", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    margin: 0;
+    padding: 0 12px;
+}
